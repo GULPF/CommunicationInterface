@@ -1,0 +1,11 @@
+
+public enum State 
+{
+	STANDBY,
+	MEASURING,
+	WARMUP,
+	SELFTEST,
+	ANALYSTIC_TEST,
+	DEVICE_ERROR ;
+	
+}
