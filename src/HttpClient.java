@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -16,7 +17,20 @@ public class HttpClient
 		this.host = host;
 	}
 	
-	public JSONArray getJson() throws Exception
+	public boolean testConnection()
+	{
+		URL url;
+		try {
+			url = new URL(host);
+			url.openConnection();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	public JSONArray getJson(int Id) throws Exception
 	{
 		URL url = new URL(host);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -34,6 +48,7 @@ public class HttpClient
 		return response;
 	}
 	
+	/* Will handle all events; Example: Start simulation, Alarm On/Off */
 	public void sendEvent(String JsonUrlParam) throws Exception
 	{
 		URL url = new URL(host);

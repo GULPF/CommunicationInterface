@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.io.StringWriter;
 
 import org.json.simple.JSONObject;
@@ -10,12 +9,10 @@ public class mainTest {
 		HttpClient client = new HttpClient("localhost:11000"); // Make sure host / url is correct.
 		
 		try {
-			System.out.println(client.getJson()); // Test get Json
+			System.out.println(client.getJson(1)); // Test get Json
 			
 			JSONObject obj = new JSONObject();
 			obj.put(1, 1); // Change values to test when we know exactly what needs to be in here!
-			obj.put(2, 1);
-			obj.put(3, 1);
 			
 			StringWriter out = new StringWriter();
 		    obj.writeJSONString(out);
