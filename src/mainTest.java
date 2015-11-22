@@ -1,13 +1,26 @@
 import java.io.IOException;
+import java.io.StringWriter;
 
-public class mainTest {
+import org.json.simple.JSONObject;
+
+// Simple test to see if HttpClient works. More extensive tests to fulfill SRS will need to be made.
+public class mainTest { 
 
 	public static void main(String[] args) {
-		TCPClient client = new TCPClient();
+		HttpClient client = new HttpClient("localhost:11000"); // Make sure host / url is correct.
 		
 		try {
-			client.Send("SENSOR Test", "localhost", 11000);
-		} catch (IOException e) {
+			System.out.println(client.getJson()); // Test get Json
+			
+			JSONObject obj = new JSONObject();
+			obj.put(1, 1); // Change values to test when we know exactly what needs to be in here!
+			obj.put(2, 1);
+			obj.put(3, 1);
+			
+			StringWriter out = new StringWriter();
+		    obj.writeJSONString(out);
+			client.sendEvent(out.toString()); //Test sending event
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
