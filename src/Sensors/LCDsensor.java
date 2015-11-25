@@ -4,20 +4,20 @@ public class LCDsensor extends Sensor
 {
 	public LCDdata data;
 	
-	public LCDsensor(int id, String hostname) {
+	public LCDsensor(String hostname) {
 		super(hostname);
 	}
 
 	@Override
 	public void getData() throws Exception 
 	{
-		data = new LCDdata(super.connection.sendGET("sensor/lcd" + "/" + super.sessionID));
+		data = new LCDdata(super.connection.sendGET("sensor/lcd/" + super.sessionID));
 	}
 
 	@Override
 	public void startSimulation() throws Exception 
 	{
-		super.connection.sendPOST("sensor/lcd");
+		super.sessionID = (int) super.connection.sendPOST("sensor/lcd").get(0);
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.json.simple.JSONArray;
@@ -22,14 +23,17 @@ public class HttpClient
 	public boolean testConnection()
 	{
 		URL url;
-		try {
-			url = new URL(host);
-			url.openConnection();
-		} catch (IOException e) {
+		try 
+		{
+			url = new URL(host + "/Check");
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			return con.getResponseCode() == 123;
+		} 
+		catch (IOException e) 
+		{
 			e.printStackTrace();
 			return false;
 		}
-		return true;
 	}
 	
 	private JSONArray returnResponse(HttpURLConnection con) throws IOException, ParseException 

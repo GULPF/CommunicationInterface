@@ -4,7 +4,7 @@ public class AP2Csensor extends Sensor
 {
 	public AP2Cdata data;
 
-	public AP2Csensor(int id, String hostname) 
+	public AP2Csensor(String hostname) 
 	{
 		super(hostname);
 	}
@@ -18,7 +18,7 @@ public class AP2Csensor extends Sensor
 	@Override
 	public void startSimulation() throws Exception 
 	{
-		super.connection.sendPOST("sensor/ap2ce");
+		super.sessionID = (int) super.connection.sendPOST("sensor/ap2ce").get(0);
 	}
 
 	@Override
