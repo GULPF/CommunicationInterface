@@ -1,12 +1,13 @@
+package Sensors;
+import HttpClient.HttpClient;
 
 public abstract class Sensor 
 {
 	protected int sessionID;
 	protected HttpClient connection;
 	
-	public Sensor(int id, String hostname)
+	public Sensor(String hostname)
 	{
-		sessionID = id;
 		connection = new HttpClient(hostname);
 	}
 	
