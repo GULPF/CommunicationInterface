@@ -17,7 +17,7 @@ public class LCDsensor extends Sensor
 	@Override
 	public void startSimulation() throws Exception 
 	{
-		super.sessionID = (int) super.connection.sendPOST("sensor/lcd").get(0);
+		super.sessionID = Integer.parseInt(super.connection.sendPOST("sensor/lcd"));
 	}
 
 	@Override

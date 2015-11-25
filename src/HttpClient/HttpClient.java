@@ -27,9 +27,21 @@ public class HttpClient
 		{
 			url = new URL(host + "/Check");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
-			return con.getResponseCode() == 123;
+			
+			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			boolean result = Integer.parseInt(in.readLine()) == 123;
+			in.close();
+			
+			if(!result) throw new UnexpectedResponseException();
+			
+			return result;
 		} 
 		catch (IOException e) 
+		{
+			e.printStackTrace();
+			return false;
+		}
+		catch (UnexpectedResponseException e) 
 		{
 			e.printStackTrace();
 			return false;
@@ -49,7 +61,7 @@ public class HttpClient
 	}
 	
 	/* Handles POST events, where a response from server is expected; Example: Start simulation */
-	public JSONArray sendPOST(String UrlParam) throws Exception
+	public String sendPOST(String UrlParam) throws Exception
 	{
 		URL url = new URL(host + "/" + UrlParam);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -57,12 +69,15 @@ public class HttpClient
 		con.setDoOutput(false);
 		con.connect();
 		
+		Exception NoSuchSimulationException = null;
+		if (con.getResponseCode() == 404) throw NoSuchSimulationException;
+		
 //		DataOutputStream sendData = new DataOutputStream(con.getOutputStream());
 //		sendData.writeBytes(JsonUrlParam);
 //		sendData.flush();
 //		sendData.close();
 		
-		return returnResponse(con);
+		return con.getHeaderField("Id");
 	}
 	
 	/* Handles GET events, where response from server is expected; Example: getData */
@@ -73,6 +88,9 @@ public class HttpClient
 		con.setRequestMethod("GET");
 		con.setDoOutput(false);
 		con.connect();
+		
+		Exception NoSuchSimulationException = null;
+		if (con.getResponseCode() == 404) throw NoSuchSimulationException;
 		
 		return returnResponse(con);
 	}
@@ -101,6 +119,9 @@ public class HttpClient
 		con.setRequestMethod("DELETE");
 		con.setDoOutput(false);
 		con.connect();
+		
+		Exception NoSuchSimulationException = null;
+		if (con.getResponseCode() == 404) throw NoSuchSimulationException;
 	}
 	
 

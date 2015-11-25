@@ -12,13 +12,13 @@ public class AP2Csensor extends Sensor
 	@Override
 	public void getData() throws Exception 
 	{		
-		data = new AP2Cdata(super.connection.sendGET("sensor/ap2ce" + "/" + super.sessionID));
+		data = new AP2Cdata(super.connection.sendGET("sensor/ap2ce/" + super.sessionID));
 	}
 
 	@Override
 	public void startSimulation() throws Exception 
 	{
-		super.sessionID = (int) super.connection.sendPOST("sensor/ap2ce").get(0);
+		super.sessionID = Integer.parseInt(super.connection.sendPOST("sensor/ap2ce"));
 	}
 
 	@Override
