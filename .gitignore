@@ -1,4 +1,6 @@
 *.class
+*.metadata
+*.settings
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -57,3 +59,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+.classpath
+.settings/org.eclipse.jdt.core.prefs
+*.prefs
+.classpath

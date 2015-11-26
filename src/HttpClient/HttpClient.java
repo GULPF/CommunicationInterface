@@ -1,23 +1,27 @@
 package HttpClient;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import Exceptions.NoSuchSimulationException;
+import Exceptions.UnexpectedResponseException;
+
 public class HttpClient
 {
-	private String host;
+	private String hostname;
 	
-	public HttpClient(String host) 
+	public HttpClient(String hostname) 
 	{
-		this.host = host;
+//		if(!hostname.contains("http://")) hostname = "http://" + hostname;
+		this.hostname = hostname;
 	}
 	
 	public boolean testConnection()
@@ -25,11 +29,11 @@ public class HttpClient
 		URL url;
 		try 
 		{
-			url = new URL(host + "/Check");
+			url = new URL(hostname + "/Check");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			
 			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-			boolean result = Integer.parseInt(in.readLine()) == 123;
+			boolean result = in.readLine().contains("123");
 			in.close();
 			
 			if(!result) throw new UnexpectedResponseException();
@@ -50,8 +54,11 @@ public class HttpClient
 	
 	private JSONArray returnResponse(HttpURLConnection con) throws IOException, ParseException 
 	{
+		System.out.println(con.getContentType());
 		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		JSONParser parser = new JSONParser();
+		
+		System.out.println(in.readLine());
 		
 		Object obj = parser.parse(in); //Unsure if this works. Might need to do in.readLine() to get the string and use .parse(String s)
 		JSONArray response = (JSONArray) obj;
@@ -60,68 +67,74 @@ public class HttpClient
 		return response;
 	}
 	
+	private void sendEmptyDataStream(HttpURLConnection con) throws IOException {
+		DataOutputStream sendData = new DataOutputStream(con.getOutputStream());
+		sendData.writeBytes("");
+		sendData.flush();
+		sendData.close();
+	}
+	
 	/* Handles POST events, where a response from server is expected; Example: Start simulation */
 	public String sendPOST(String UrlParam) throws Exception
 	{
-		URL url = new URL(host + "/" + UrlParam);
+		URL url = new URL(hostname + "/" + UrlParam);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("POST");
-		con.setDoOutput(false);
-		con.connect();
 		
-		Exception NoSuchSimulationException = null;
-		if (con.getResponseCode() == 404) throw NoSuchSimulationException;
+		con.setDoOutput(true);
+		sendEmptyDataStream(con);
 		
-//		DataOutputStream sendData = new DataOutputStream(con.getOutputStream());
-//		sendData.writeBytes(JsonUrlParam);
-//		sendData.flush();
-//		sendData.close();
+		if (con.getResponseCode() == 404) throw new NoSuchSimulationException();
 		
-		return con.getHeaderField("Id");
+		return con.getHeaderField("Location");
 	}
+
+
 	
 	/* Handles GET events, where response from server is expected; Example: getData */
 	public JSONArray sendGET(String UrlParam) throws Exception
 	{
-		URL url = new URL(host + "/" + UrlParam);
+		URL url = new URL(hostname + "/" + UrlParam);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
 		con.setDoOutput(false);
-		con.connect();
 		
-		Exception NoSuchSimulationException = null;
-		if (con.getResponseCode() == 404) throw NoSuchSimulationException;
+		if (con.getResponseCode() == 404) throw new NoSuchSimulationException();
 		
 		return returnResponse(con);
 	}
 	
-	/* Handles PUT events; */
+	/* Handles PUT events; 
+	 * Require description of how JsonData should be structured.
+	 * */
 	public void sendPUT(String UrlParam, String JsonData) throws Exception
 	{
-		URL url = new URL(host + "/" + UrlParam);
+		URL url = new URL(hostname + "/" + UrlParam);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("PUT");
 		con.setDoOutput(true);
+		
+		
 		
 		DataOutputStream sendData = new DataOutputStream(con.getOutputStream());
 		sendData.writeBytes(JsonData);
 		sendData.flush();
 		sendData.close();
+			
+		System.out.println(con.getResponseCode());
 		
 		con.connect();
 	}
 	
 	/* Handles DELETE events; */
-	public void sendDelete(String UrlParam) throws Exception
+	public void sendDELETE(String UrlParam) throws Exception
 	{
-		URL url = new URL(host + "/" + UrlParam);
+		URL url = new URL(hostname + "/" + UrlParam);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("DELETE");
 		con.setDoOutput(false);
-		con.connect();
 		
-		Exception NoSuchSimulationException = null;
-		if (con.getResponseCode() == 404) throw NoSuchSimulationException;
+		if (con.getResponseCode() == 404) throw new NoSuchSimulationException();
 	}
 	
 

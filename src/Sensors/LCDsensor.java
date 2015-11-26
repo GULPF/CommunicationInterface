@@ -1,28 +1,26 @@
 package Sensors;
 
+import Exceptions.NoSessionInProgressException;
+
 public class LCDsensor extends Sensor 
 {
 	public LCDdata data;
-	
-	public LCDsensor(String hostname) {
-		super(hostname);
+	public LCDsensor(String hostname) 
+	{
+		super(hostname, "sensors/lcd");
 	}
 
 	@Override
 	public void getData() throws Exception 
 	{
-		data = new LCDdata(super.connection.sendGET("sensor/lcd/" + super.sessionID));
+		if(sessionID == null) throw new NoSessionInProgressException();
+		data = new LCDdata(super.connection.sendGET(urlPath + "/" + sessionID));
 	}
-
-	@Override
-	public void startSimulation() throws Exception 
-	{
-		super.sessionID = Integer.parseInt(super.connection.sendPOST("sensor/lcd"));
-	}
-
+	
 	@Override
 	public void endSimulation() throws Exception 
 	{
-		super.connection.sendDelete("sensor/lcd/" + super.sessionID);
+		super.endSimulation();
+		data = null;
 	}
 }

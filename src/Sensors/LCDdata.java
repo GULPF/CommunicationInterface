@@ -4,150 +4,144 @@ import org.json.simple.JSONArray;
 
 public class LCDdata implements sensorData 
 {
-	private String[] dataList;
+	private JSONArray dataList;
 	
 	public LCDdata(JSONArray JsonArray)
 	{
-//		dataList = new String[JsonArray.size() - 1];
-//		
-//		for(int i = 0; i < JsonArray.size(); i++)
-//		{
-//			dataList[i] = (String) JsonArray.get(i);
-//		}
-		dataList = (String[]) JsonArray.toArray(); //Might not work, use above commented code.
+		dataList = JsonArray;
 	}
 	
 	public String getBarCount()
 	{
-		return dataList[0];
+		return ((String[]) dataList.get(0))[0];
 	}
 	
 	public String getSubstanceIndex()
 	{
-		return dataList[1];
+		return ((String[]) dataList.get(0))[1];
 	}
 	
 	public String getVolumeConcentration()
 	{
-		return dataList[2];
+		return ((String[]) dataList.get(0))[2];
 	}
 	
 	public String getDetectionMode()
 	{
-		return dataList[3];
+		return ((String[]) dataList.get(0))[3];
 	}
 	
 	public boolean is_gAlert()
 	{
-		return Integer.parseInt(dataList[4]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[0]) == 1;
 	}
 
 	public boolean is_hAlert()
 	{
-		return Integer.parseInt(dataList[5]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[1]) == 1;
 	}
 	
 	public boolean is_tICAlert()
 	{
-		return Integer.parseInt(dataList[6]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[2]) == 1;
 	}
 	
 	public boolean is_tICMode()
 	{
-		return Integer.parseInt(dataList[7]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[3]) == 1;
 	} 
 	
 	public boolean is_lowSieve()
 	{
-		return Integer.parseInt(dataList[8]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[4]) == 1;
 	}
 	
 	public boolean is_changeSievePack()
 	{
-		return Integer.parseInt(dataList[9]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[5]) == 1;
 	}
 
 	public boolean is_lowBattery()
 	{
-		return Integer.parseInt(dataList[10]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[6]) == 1;
 	}
 
 	public boolean is_changeBattery()
 	{
-		return Integer.parseInt(dataList[11]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[7]) == 1;
 	}
 
-	public boolean _gHighDoseAlert()
+	public boolean is_gHighDoseAlert()
 	{
-		return Integer.parseInt(dataList[12]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[8]) == 1;
 	}
 	
-	public boolean _gMediumDoseAlert()
+	public boolean is_gMediumDoseAlert()
 	{
-		return Integer.parseInt(dataList[13]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[9]) == 1;
 	}
 
-	public boolean _hHighDoseAlert()
+	public boolean is_hHighDoseAlert()
 	{
-		return Integer.parseInt(dataList[14]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[10]) == 1;
 	}
 
-	public boolean _initialSelfTest()
+	public boolean is_initialSelfTest()
 	{
-		return Integer.parseInt(dataList[15]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[11]) == 1;
 	}
-	public boolean _coronaBurnOff()
+	public boolean is_coronaBurnOff()
 	{
-		return Integer.parseInt(dataList[16]) == 1;
-	}
-
-	public boolean _pTOutOfRange()
-	{
-		return Integer.parseInt(dataList[17]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[12]) == 1;
 	}
 
-	public boolean _audioFault()
+	public boolean is_pTOutOfRange()
 	{
-		return Integer.parseInt(dataList[18]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[13]) == 1;
 	}
 
-	public boolean _fatalError()
+	public boolean is_audioFault()
 	{
-		return Integer.parseInt(dataList[19]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[14]) == 1;
 	}
 
-	public boolean _cRAboveLimit()
+	public boolean is_fatalError()
 	{
-		return Integer.parseInt(dataList[20]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[15]) == 1;
 	}
 
-	public boolean _fanCAboveLimit()
+	public boolean is_cRAboveLimit()
 	{
-		return Integer.parseInt(dataList[21]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[16]) == 1;
 	}
 
-	public boolean _initialSelfTestFailure()
+	public boolean is_fanCAboveLimit()
 	{
-		return Integer.parseInt(dataList[22]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[17]) == 1;
 	}
 
-	public boolean _healthCheckFailure()
+	public boolean is_initialSelfTestFailure()
 	{
-		return Integer.parseInt(dataList[23]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[18]) == 1;
 	}
 
-	public boolean _codeChecksumError()
+	public boolean is_healthCheckFailure()
 	{
-		return Integer.parseInt(dataList[24]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[19]) == 1;
+	}
+
+	public boolean is_codeChecksumError()
+	{
+		return Integer.parseInt(((String[]) dataList.get(4))[20]) == 1;
 	}
 	
-	public boolean _eEPROMChecksumError()
+	public boolean is_eEPROMChecksumError()
 	{
-		return Integer.parseInt(dataList[25]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[21]) == 1;
 	}
 
-	public boolean _hTOutSideLimits()
+	public boolean is_hTOutSideLimits()
 	{
-		return Integer.parseInt(dataList[26]) == 1;
+		return Integer.parseInt(((String[]) dataList.get(4))[22]) == 1;
 	}
 }
