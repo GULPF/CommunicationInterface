@@ -1,4 +1,4 @@
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 
 import HttpClient.HttpClient;
 import Sensors.AP2Csensor;
@@ -13,11 +13,52 @@ public class mainTest {
 		
 		try {
 			//Raw tests of HttpClient
-			System.out.println("http://localhost:2000/sensor/ap2ce");
-			String Id = client.sendPOST("sensors/ap2ce");
-			System.out.println(Id);
-			System.out.println(client.sendGET("sensors/ap2ce/" + Id)); //DOES NOT WORK
-//			JSONObject obj = new JSONObject();
+//			System.out.println("http://localhost:2000/sensor/ap2ce");
+//			String Id = client.sendPOST("sensors/ap2ce");
+//			System.out.println(Id);
+//			System.out.println(client.sendGET("sensors/ap2ce/" + Id)); //DOES NOT WORK
+			JSONObject testJSON = new JSONObject("{"
+			+ " \"Data\": [{"
+			+ "		\"BarCount\": 5,"
+			+ "		\"VolumeConcentration\": 20,"
+			+ "		\"SubstanceIndex\": 0"
+			+ "	}],"
+			+ "	\"Id\": \"abc\","
+			+ "	\"Position\": {"
+			+ "		\"Altitude\": 0,"
+			+ "		\"Latitude\": 1,"
+			+ "		\"Longitude\": 2"
+			+ " },"
+			+ "	\"State\": {"
+			+ " 	\"AudioFault\": true,"
+			+ " 	\"CRAboveLimit\": false,"
+			+ " 	\"ChangeBattery\": false,"
+			+ " 	\"ChangeSievePack\": false,"
+			+ " 	\"CodeChecksumError\": false,"
+			+ " 	\"CoronaBurnOff\": false,"
+			+ " 	\"EEPROMChecksumError\": false,"
+			+ " 	\"FanCAboveLimit\": false,"
+			+ " 	\"FatalError\": false,"
+			+ " 	\"GAlert\": false,"
+			+ " 	\"GHighDoseAlert\": false,"
+			+ " 	\"GMediumDoseAlert\": false,"
+			+ " 	\"HAlert\": false,"
+			+ " 	\"HHighDoseAlert\": false,"
+			+ " 	\"HTOutSideLimits\": false,"
+			+ " 	\"HealthCheckFailure\": false,"
+			+ " 	\"InitialSelfTest\": false,"
+			+ " 	\"InitialSelfTestFailure\": false,"
+			+ " 	\"LowBattery\": false,"
+			+ " 	\"LowSieve\": false,"
+			+ " 	\"PTOutOfRange\": false,"
+			+ " 	\"TICAlert\": false,"
+			+ " 	\"TICMode\": false"
+			+ "}"
+			+ "}");
+			
+			
+			
+			System.out.println(testJSON.getJSONArray("Data").getJSONObject(0).getInt("SubstanceIndex"));
 //			obj.put("Description", "Potato");
 //			System.out.println(obj.toJSONString());
 //			client.sendPUT("sensors/ap2ce/" + Id, obj.toJSONString());

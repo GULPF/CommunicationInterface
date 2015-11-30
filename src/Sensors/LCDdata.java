@@ -1,147 +1,147 @@
 package Sensors;
 
-import org.json.simple.JSONArray;
+import org.json.JSONObject;;
 
 public class LCDdata implements sensorData 
 {
-	private JSONArray dataList;
+	private JSONObject dataList;
 	
-	public LCDdata(JSONArray JsonArray)
+	public LCDdata(JSONObject JSONObject)
 	{
-		dataList = JsonArray;
+		dataList = JSONObject;
 	}
 	
-	public String getBarCount()
+	public int getBarCount()
 	{
-		return ((String[]) dataList.get(0))[0];
+		return dataList.getJSONArray("Data").getJSONObject(0).getInt("BarCount");
 	}
 	
-	public String getSubstanceIndex()
+	public int getSubstanceIndex()
 	{
-		return ((String[]) dataList.get(0))[1];
+		return dataList.getJSONArray("Data").getJSONObject(0).getInt("SubstanceIndex");
 	}
 	
-	public String getVolumeConcentration()
+	public int getVolumeConcentration()
 	{
-		return ((String[]) dataList.get(0))[2];
+		return dataList.getJSONArray("Data").getJSONObject(0).getInt("VolumeConcentration");
 	}
 	
 	public String getDetectionMode()
 	{
-		return ((String[]) dataList.get(0))[3];
+		return "?";
 	}
 	
 	public boolean is_gAlert()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[0]) == 1;
+		return dataList.getJSONArray("State").getJSONObject(0).getBoolean("gAlert");
 	}
 
 	public boolean is_hAlert()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[1]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("hAlert");
 	}
 	
 	public boolean is_tICAlert()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[2]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("tICAlert");
 	}
 	
 	public boolean is_tICMode()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[3]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("tICMode");
 	} 
 	
 	public boolean is_lowSieve()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[4]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("lowSieve");
 	}
 	
 	public boolean is_changeSievePack()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[5]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("changeSievePack");
 	}
 
 	public boolean is_lowBattery()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[6]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("lowBattery");
 	}
 
 	public boolean is_changeBattery()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[7]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("changeBattery");
 	}
 
 	public boolean is_gHighDoseAlert()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[8]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("gHighDoseAlert");
 	}
 	
 	public boolean is_gMediumDoseAlert()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[9]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("gMediumDoseAlert");
 	}
 
 	public boolean is_hHighDoseAlert()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[10]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("hHighDoseAlert");
 	}
 
 	public boolean is_initialSelfTest()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[11]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("initialSelfTest");
 	}
 	public boolean is_coronaBurnOff()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[12]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("coronaBurnOff");
 	}
 
 	public boolean is_pTOutOfRange()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[13]) == 1;
+		return dataList.getJSONArray("State").getJSONObject(0).getBoolean("pTOutOfRange");
 	}
 
 	public boolean is_audioFault()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[14]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("audioFault");
 	}
 
 	public boolean is_fatalError()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[15]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("fatalError");
 	}
 
 	public boolean is_cRAboveLimit()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[16]) == 1;
+		return dataList.getJSONArray("State").getJSONObject(0).getBoolean("cRAboveLimit");
 	}
 
 	public boolean is_fanCAboveLimit()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[17]) == 1;
+		return dataList.getJSONArray("State").getJSONObject(0).getBoolean("fanCAboveLimit");
 	}
 
 	public boolean is_initialSelfTestFailure()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[18]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("initialSelfTestFailure");
 	}
 
 	public boolean is_healthCheckFailure()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[19]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("healthCheckFailure");
 	}
 
 	public boolean is_codeChecksumError()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[20]) == 1;
+		return dataList.getJSONArray("State").getJSONObject(0).getBoolean("codeChecksumError");
 	}
 	
 	public boolean is_eEPROMChecksumError()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[21]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("eEPROMChecksumError");
 	}
 
 	public boolean is_hTOutSideLimits()
 	{
-		return Integer.parseInt(((String[]) dataList.get(4))[22]) == 1;
+		return  dataList.getJSONArray("State").getJSONObject(0).getBoolean("hTOutSideLimits");
 	}
 }

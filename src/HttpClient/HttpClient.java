@@ -7,9 +7,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONObject;
 
 import Exceptions.NoSuchSimulationException;
 import Exceptions.UnexpectedResponseException;
@@ -52,18 +50,13 @@ public class HttpClient
 		}
 	}
 	
-	private JSONArray returnResponse(HttpURLConnection con) throws IOException, ParseException 
+	private JSONObject returnResponse(HttpURLConnection con) throws IOException 
 	{
 		System.out.println(con.getContentType());
-		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		JSONParser parser = new JSONParser();
-		
-		System.out.println(in.readLine());
-		
-		Object obj = parser.parse(in); //Unsure if this works. Might need to do in.readLine() to get the string and use .parse(String s)
-		JSONArray response = (JSONArray) obj;
-		
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));		
+		JSONObject response = new JSONObject(in.readLine()); 
 		in.close();
+		
 		return response;
 	}
 	
@@ -89,10 +82,8 @@ public class HttpClient
 		return con.getHeaderField("Location");
 	}
 
-
-	
 	/* Handles GET events, where response from server is expected; Example: getData */
-	public JSONArray sendGET(String UrlParam) throws Exception
+	public JSONObject sendGET(String UrlParam) throws Exception
 	{
 		URL url = new URL(hostname + "/" + UrlParam);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -113,9 +104,7 @@ public class HttpClient
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("PUT");
 		con.setDoOutput(true);
-		
-		
-		
+
 		DataOutputStream sendData = new DataOutputStream(con.getOutputStream());
 		sendData.writeBytes(JsonData);
 		sendData.flush();

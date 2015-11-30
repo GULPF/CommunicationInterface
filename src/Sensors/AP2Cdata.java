@@ -1,49 +1,49 @@
 package Sensors;
 
-import org.json.simple.JSONArray;
+import org.json.JSONObject;;
 
 public class AP2Cdata implements sensorData 
 { 
-	private JSONArray dataList;
+	private JSONObject dataList;
 	
-	public AP2Cdata(JSONArray JsonArray)
+	public AP2Cdata(JSONObject JSONObject)
 	{
-		dataList = JsonArray;
+		dataList = JSONObject;
 	}
 	
-	public String getBarCount()
+	public int getBarCount()
 	{
-		return ((String[])dataList.get(0))[0];
+		return dataList.getJSONArray("Data").getJSONObject(0).getInt("BarCount");
 	}
 	
-	public String getVolumeConcentration()
+	public int getVolumeConcentration()
 	{
-		return ((String[])dataList.get(0))[1];
+		return  dataList.getJSONArray("Data").getJSONObject(0).getInt("VolumeConcentration");
 	}
 	
 	public boolean isHydrogenTankEmpty()
 	{
-		return Integer.parseInt(((String[])dataList.get(4))[0]) == 1;
+		return dataList.getJSONArray("State").getJSONObject(0).getBoolean("HydrogenTankEmpty");
 	}
 	
 	public boolean isDeviceFault()
 	{
-		return Integer.parseInt(((String[])dataList.get(4))[1]) == 1;
+		return dataList.getJSONArray("State").getJSONObject(0).getBoolean("DeviceFault");
 	}
 	
 	public boolean isDetectorReady()
 	{
-		return Integer.parseInt(((String[])dataList.get(4))[2]) == 1;
+		return dataList.getJSONArray("State").getJSONObject(0).getBoolean("DetectorReady");
 	}
 	
 	public boolean isPurge()
 	{
-		return Integer.parseInt(((String[])dataList.get(4))[3]) == 1;
+		return dataList.getJSONArray("State").getJSONObject(0).getBoolean("Purge");
 	}
 	
 	public boolean isBatteryLow()
 	{
-		return Integer.parseInt(((String[])dataList.get(4))[4]) == 1;
+		return dataList.getJSONArray("State").getJSONObject(0).getBoolean("BatteryLow");
 	}
 
 }
