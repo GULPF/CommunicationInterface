@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -52,7 +53,6 @@ public class HttpClient
 	
 	private JSONObject returnResponse(HttpURLConnection con) throws IOException 
 	{
-		System.out.println(con.getContentType());
 		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));		
 		JSONObject response = new JSONObject(in.readLine()); 
 		in.close();
@@ -68,9 +68,9 @@ public class HttpClient
 	}
 	
 	/* Handles POST events, where a response from server is expected; Example: Start simulation */
-	public String sendPOST(String UrlParam) throws Exception
+	public String sendPOST(String urlParam) throws Exception
 	{
-		URL url = new URL(hostname + "/" + UrlParam);
+		URL url = new URL(hostname + "/" + urlParam);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("POST");
 		
@@ -81,11 +81,27 @@ public class HttpClient
 		
 		return con.getHeaderField("Location");
 	}
+	
+	public void sendPOSTEvent(String urlParam, String jsonEvent) throws Exception
+	{
+		URL url = new URL(hostname + "/" + urlParam);
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setRequestMethod("POST");
+		
+		con.setDoOutput(true);
+		
+		OutputStreamWriter sendData = new OutputStreamWriter(con.getOutputStream());
+		sendData.write(jsonEvent);
+		sendData.flush();
+		sendData.close();
+		
+		if (con.getResponseCode() == 404) throw new NoSuchSimulationException();
+	}
 
 	/* Handles GET events, where response from server is expected; Example: getData */
-	public JSONObject sendGET(String UrlParam) throws Exception
+	public JSONObject sendGET(String urlParam) throws Exception
 	{
-		URL url = new URL(hostname + "/" + UrlParam);
+		URL url = new URL(hostname + "/" + urlParam);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
 		con.setDoOutput(false);
@@ -98,27 +114,28 @@ public class HttpClient
 	/* Handles PUT events; 
 	 * Require description of how JsonData should be structured.
 	 * */
-	public void sendPUT(String UrlParam, String JsonData) throws Exception
+	public void sendPUT(String urlParam, String JsonData) throws Exception
 	{
-		URL url = new URL(hostname + "/" + UrlParam);
+		URL url = new URL(hostname + "/" + urlParam);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setRequestProperty( "Content-Type", "application/json" );
 		con.setRequestMethod("PUT");
 		con.setDoOutput(true);
-
-		DataOutputStream sendData = new DataOutputStream(con.getOutputStream());
-		sendData.writeBytes(JsonData);
+		
+		OutputStreamWriter sendData = new OutputStreamWriter(con.getOutputStream());
+		sendData.write(JsonData);
 		sendData.flush();
 		sendData.close();
-			
-		System.out.println(con.getResponseCode());
-		
+
 		con.connect();
+		
+		if (con.getResponseCode() == 404) throw new NoSuchSimulationException();
 	}
 	
 	/* Handles DELETE events; */
-	public void sendDELETE(String UrlParam) throws Exception
+	public void sendDELETE(String urlParam) throws Exception
 	{
-		URL url = new URL(hostname + "/" + UrlParam);
+		URL url = new URL(hostname + "/" + urlParam);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("DELETE");
 		con.setDoOutput(false);

@@ -1,7 +1,7 @@
 import org.json.JSONObject;
 
 import HttpClient.HttpClient;
-import Sensors.AP2Csensor;
+import Sensors.AP2CEsensor;
 import Sensors.LCDsensor;
 
 // Simple test to see if HttpClient works. More extensive tests to fulfill SRS will need to be made.
@@ -12,103 +12,122 @@ public class mainTest {
 		HttpClient client = new HttpClient(hostname); // Make sure host / url is correct.	
 		
 		try {
-			//Raw tests of HttpClient
+//Raw tests of HttpClient
 //			System.out.println("http://localhost:2000/sensor/ap2ce");
 //			String Id = client.sendPOST("sensors/ap2ce");
 //			System.out.println(Id);
-//			System.out.println(client.sendGET("sensors/ap2ce/" + Id)); //DOES NOT WORK
-			JSONObject testJSON = new JSONObject("{"
-			+ " \"Data\": [{"
-			+ "		\"BarCount\": 5,"
-			+ "		\"VolumeConcentration\": 20,"
-			+ "		\"SubstanceIndex\": 0"
-			+ "	}],"
-			+ "	\"Id\": \"abc\","
-			+ "	\"Position\": {"
-			+ "		\"Altitude\": 0,"
-			+ "		\"Latitude\": 1,"
-			+ "		\"Longitude\": 2"
-			+ " },"
-			+ "	\"State\": {"
-			+ " 	\"AudioFault\": true,"
-			+ " 	\"CRAboveLimit\": false,"
-			+ " 	\"ChangeBattery\": false,"
-			+ " 	\"ChangeSievePack\": false,"
-			+ " 	\"CodeChecksumError\": false,"
-			+ " 	\"CoronaBurnOff\": false,"
-			+ " 	\"EEPROMChecksumError\": false,"
-			+ " 	\"FanCAboveLimit\": false,"
-			+ " 	\"FatalError\": false,"
-			+ " 	\"GAlert\": false,"
-			+ " 	\"GHighDoseAlert\": false,"
-			+ " 	\"GMediumDoseAlert\": false,"
-			+ " 	\"HAlert\": false,"
-			+ " 	\"HHighDoseAlert\": false,"
-			+ " 	\"HTOutSideLimits\": false,"
-			+ " 	\"HealthCheckFailure\": false,"
-			+ " 	\"InitialSelfTest\": false,"
-			+ " 	\"InitialSelfTestFailure\": false,"
-			+ " 	\"LowBattery\": false,"
-			+ " 	\"LowSieve\": false,"
-			+ " 	\"PTOutOfRange\": false,"
-			+ " 	\"TICAlert\": false,"
-			+ " 	\"TICMode\": false"
-			+ "}"
-			+ "}");
+//			System.out.println(client.sendGET("sensors/ap2ce/" + Id));
+//			JSONObject testJSON = new JSONObject("{"
+//			+ " \"Data\": [{"
+//			+ "		\"BarCount\": 5,"
+//			+ "		\"VolumeConcentration\": 20,"
+//			+ "		\"SubstanceIndex\": 3"
+//			+ "	},"
+//			+ " {"
+//			+ "		\"BarCount\": 5,"
+//			+ "		\"VolumeConcentration\": 20,"
+//			+ "		\"SubstanceIndex\": 3"
+//			+ "	}],
+//			+ "	\"Id\": \"abc\","
+//			+ "	\"Position\": {"
+//			+ "		\"Altitude\": 0,"
+//			+ "		\"Latitude\": 1,"
+//			+ "		\"Longitude\": 2"
+//			+ " },"
+//			+ "	\"State\": {"
+//			+ " 	\"AudioFault\": true,"
+//			+ " 	\"CRAboveLimit\": false,"
+//			+ " 	\"ChangeBattery\": false,"
+//			+ " 	\"ChangeSievePack\": false,"
+//			+ " 	\"CodeChecksumError\": false,"
+//			+ " 	\"CoronaBurnOff\": false,"
+//			+ " 	\"EEPROMChecksumError\": false,"
+//			+ " 	\"FanCAboveLimit\": false,"
+//			+ " 	\"FatalError\": false,"
+//			+ " 	\"GAlert\": false,"
+//			+ " 	\"GHighDoseAlert\": false,"
+//			+ " 	\"GMediumDoseAlert\": false,"
+//			+ " 	\"HAlert\": false,"
+//			+ " 	\"HHighDoseAlert\": false,"
+//			+ " 	\"HTOutSideLimits\": false,"
+//			+ " 	\"HealthCheckFailure\": false,"
+//			+ " 	\"InitialSelfTest\": false,"
+//			+ " 	\"InitialSelfTestFailure\": false,"
+//			+ " 	\"LowBattery\": false,"
+//			+ " 	\"LowSieve\": false,"
+//			+ " 	\"PTOutOfRange\": false,"
+//			+ " 	\"TICAlert\": false,"
+//			+ " 	\"TICMode\": false"
+//			+ "}"
+//			+ "}");
+//			System.out.println(testJSON.getJSONArray("Data").getJSONObject(0).getInt("SubstanceIndex"));
 			
-			
-			
-			System.out.println(testJSON.getJSONArray("Data").getJSONObject(0).getInt("SubstanceIndex"));
-//			obj.put("Description", "Potato");
-//			System.out.println(obj.toJSONString());
-//			client.sendPUT("sensors/ap2ce/" + Id, obj.toJSONString());
+//			JSONObject obj = new JSONObject("{"
+//			+ "		\"Longitude\": 5,"
+//			+ "		\"Latitude\": 20,"
+//			+ "		\"Altitude\": 3"
+//			+ "	}");
+//			System.out.println(obj.toString());
+//			client.sendPUT("sensors/ap2ce/" + Id, obj.toString());
 //			ADD PUT VARIANT HERE!
 //			client.sendDELETE("sensors/ap2ce/" + Id);
 			
-			//Sensor function tests
-//			AP2Csensor AP2CTest = new AP2Csensor(hostname);
-//			AP2CTest.startSimulation();
-//			AP2CTest.getData(); // Does Not Work! Following will will work when fixed.
-//			System.out.println(AP2CTest.data.getBarCount());
-//			System.out.println(AP2CTest.data.getVolumeConcentration());
-//			System.out.println(AP2CTest.data.isBatteryLow());
-//			System.out.println(AP2CTest.data.isDetectorReady());
-//			System.out.println(AP2CTest.data.isDeviceFault());
-//			System.out.println(AP2CTest.data.isHydrogenTankEmpty());
-//			System.out.println(AP2CTest.data.isPurge());
-//			AP2CTest.endSimulation();
+//Sensor function tests
+			System.out.println("START TESTS");
+			System.out.println("START TEST AP2C");
+			AP2CEsensor AP2CTest = new AP2CEsensor(hostname);
+			AP2CTest.startSimulation();
+			AP2CTest.getData();
+			AP2CTest.updatePosition(15, 5);
+			AP2CTest.data.get_gBarCount();
+			AP2CTest.data.get_gVolumeConcentration();
+			AP2CTest.data.is_BatteryLow();
+			AP2CTest.data.is_DetectorReady();
+			AP2CTest.data.is_DeviceFault();
+			AP2CTest.data.is_HydrogenTankEmpty();
+			AP2CTest.data.is_Purge();
+			AP2CTest.endSimulation();
+			System.out.println("END TEST AP2C");
 			
-//			LCDsensor LCDTest = new LCDsensor(hostname);
-//			LCDTest.startSimulation();
-//			LCDTest.getData(); // Does Not Work! Following will will work when fixed.
-//			System.out.println(LCDTest.data.getBarCount());
-//			System.out.println(LCDTest.data.getDetectionMode());
-//			System.out.println(LCDTest.data.getSubstanceIndex());
-//			System.out.println(LCDTest.data.getVolumeConcentration());
-//			System.out.println(LCDTest.data.is_audioFault());
-//			System.out.println(LCDTest.data.is_changeBattery());
-//			System.out.println(LCDTest.data.is_changeSievePack());
-//			System.out.println(LCDTest.data.is_codeChecksumError());
-//			System.out.println(LCDTest.data.is_coronaBurnOff());
-//			System.out.println(LCDTest.data.is_cRAboveLimit());
-//			System.out.println(LCDTest.data.is_eEPROMChecksumError());
-//			System.out.println(LCDTest.data.is_fanCAboveLimit());
-//			System.out.println(LCDTest.data.is_fatalError());
-//			System.out.println(LCDTest.data.is_gAlert());
-//			System.out.println(LCDTest.data.is_gHighDoseAlert());
-//			System.out.println(LCDTest.data.is_gMediumDoseAlert());
-//			System.out.println(LCDTest.data.is_hAlert());
-//			System.out.println(LCDTest.data.is_healthCheckFailure());
-//			System.out.println(LCDTest.data.is_hHighDoseAlert());
-//			System.out.println(LCDTest.data.is_hTOutSideLimits());
-//			System.out.println(LCDTest.data.is_initialSelfTest());
-//			System.out.println(LCDTest.data.is_initialSelfTestFailure());
-//			System.out.println(LCDTest.data.is_lowBattery());
-//			System.out.println(LCDTest.data.is_lowSieve());
-//			System.out.println(LCDTest.data.is_pTOutOfRange());
-//			System.out.println(LCDTest.data.is_tICAlert());
-//			System.out.println(LCDTest.data.is_tICMode());
-//			LCDTest.endSimulation();
+			System.out.println("START TEST LCD");
+			LCDsensor LCDTest = new LCDsensor(hostname);
+			LCDTest.startSimulation();
+			LCDTest.nvgToggle();
+			LCDTest.getData();
+			LCDTest.updatePosition(15, 5);
+			LCDTest.data.get_gBarCount();
+			LCDTest.data.get_gSubstanceIndex();
+			LCDTest.data.get_gVolumeConcentration();
+			LCDTest.data.get_DetectionMode();
+			LCDTest.data.is_audioFault();
+			LCDTest.data.is_changeBattery();
+			LCDTest.data.is_changeSievePack();
+			LCDTest.data.is_codeChecksumError();
+			LCDTest.data.is_coronaBurnOff();
+			LCDTest.data.is_cRAboveLimit();
+			LCDTest.data.is_eEPROMChecksumError();
+			LCDTest.data.is_fanCAboveLimit();
+			LCDTest.data.is_fatalError();
+			LCDTest.data.is_gAlert();
+			LCDTest.data.is_gHighDoseAlert();
+			LCDTest.data.is_gMediumDoseAlert();
+			LCDTest.data.is_hAlert();
+			LCDTest.data.is_healthCheckFailure();
+			LCDTest.data.is_hHighDoseAlert();
+			LCDTest.data.is_hTOutSideLimits();
+			LCDTest.data.is_initialSelfTest();
+			LCDTest.data.is_initialSelfTestFailure();
+			LCDTest.data.is_lowBattery();
+			LCDTest.data.is_lowSieve();
+			LCDTest.data.is_pTOutOfRange();
+			LCDTest.data.is_tICAlert();
+			LCDTest.data.is_tICMode();
+			LCDTest.setDetectionMode(0);
+			LCDTest.data.get_DetectionMode();
+			LCDTest.endSimulation();
+			System.out.println("END TEST LCD");
+			
+			System.out.println("END TESTS");
 			
 			/*
 			 * If these tests pass then all normal calls to WISE from java succeed.
