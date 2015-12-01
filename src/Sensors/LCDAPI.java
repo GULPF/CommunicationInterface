@@ -14,6 +14,9 @@ public class LCDAPI extends Sensor
 	public static final int TIC = 1;
 	public static final int CWACont = 2;
 	
+	/**
+	 * @param uri - server uri
+	 */
 	public LCDAPI(String uri) 
 	{
 		super(uri, "sensors/lcd");
@@ -26,6 +29,10 @@ public class LCDAPI extends Sensor
 		return new LCDData(lastReceivedData);
 	}
 	
+	/** Sends a 'NVG TOGGLE' event to the server
+	 * @throws ConnectionFailedException if a connection to the server was not established
+	 * @throws NoSuchSimulationException if this object is not associated with a sensor on the server
+	 */
 	public void nvgToggle() throws ConnectionFailedException, NoSuchSimulationException
 	{
 		String jsonEvent = "{"
@@ -36,6 +43,10 @@ public class LCDAPI extends Sensor
 		connection.sendPOSTEvent(sensorPath, jsonEvent);
 	}
 	
+	/** Sends a 'AUDIBLE ALARM TOGGLE' event to the server
+	 * @throws ConnectionFailedException if a connection to the server was not established
+	 * @throws NoSuchSimulationException if this object is not associated with a sensor on the server
+	 */
 	public void audibleAlarmToggle() throws ConnectionFailedException, NoSuchSimulationException
 	{
 		String jsonEvent = "{"
@@ -46,6 +57,11 @@ public class LCDAPI extends Sensor
 		connection.sendPOSTEvent(sensorPath, jsonEvent);
 	}
 	
+	/**
+	 * @param mode one of LCDAPI.[CWA, TIC, CWACont]
+	 * @throws ConnectionFailedException if a connection to the server was not established
+	 * @throws NoSuchSimulationException if this object is not associated with a sensor on the server
+	 */
 	public void updateDetectionMode(int mode) throws ConnectionFailedException, NoSuchSimulationException
 	{
 		// TODO: validate mode? if its not valid, should throw runtimeerror
