@@ -1,8 +1,13 @@
 import org.json.JSONObject;
 
+import Exceptions.ConnectionFailedException;
+import Exceptions.NoSuchSimulationException;
 import HttpClient.HttpClient;
-import Sensors.AP2CEsensor;
-import Sensors.LCDsensor;
+import Sensors.AP2CeAPI;
+import Sensors.AP2CeData;
+import Sensors.ConnectionTester;
+import Sensors.LCDAPI;
+import Sensors.LCDData;
 
 // Simple test to see if HttpClient works. More extensive tests to fulfill SRS will need to be made.
 public class mainTest { 
@@ -11,7 +16,10 @@ public class mainTest {
 		String hostname = "http://localhost:8732";
 		HttpClient client = new HttpClient(hostname); // Make sure host / url is correct.	
 		
+		
 		try {
+			
+			
 //Raw tests of HttpClient
 //			System.out.println("http://localhost:2000/sensor/ap2ce");
 //			String Id = client.sendPOST("sensors/ap2ce");
@@ -73,62 +81,68 @@ public class mainTest {
 //			client.sendDELETE("sensors/ap2ce/" + Id);
 			
 //Sensor function tests
+			
 			System.out.println("START TESTS");
 			System.out.println("START TEST AP2C");
-			AP2CEsensor AP2CTest = new AP2CEsensor(hostname);
-			AP2CTest.startSimulation();
-			AP2CTest.getData();
+			AP2CeAPI AP2CTest = new AP2CeAPI(hostname);
+			AP2CTest.startSimulation(2, 2);
+			AP2CeData adata = AP2CTest.fetchData();
+			
+			System.out.println(adata.batteryLow);
+			AP2CTest.updatePosition(1, 2);
+			
 			AP2CTest.updatePosition(15, 5);
-			AP2CTest.data.get_gBarCount();
-			AP2CTest.data.get_gVolumeConcentration();
-			AP2CTest.data.is_BatteryLow();
-			AP2CTest.data.is_DetectorReady();
-			AP2CTest.data.is_DeviceFault();
-			AP2CTest.data.is_HydrogenTankEmpty();
-			AP2CTest.data.is_Purge();
+			System.out.println(adata.gBarCount);
+			
+			System.out.println(adata.batteryLow);
+			System.out.println(adata.detectorReady);
+			System.out.println(adata.deviceFault);
+			System.out.println(adata.hydrogenTankEmpty);
+			System.out.println(adata.purge);
 			AP2CTest.endSimulation();
 			System.out.println("END TEST AP2C");
 			
 			System.out.println("START TEST LCD");
-			LCDsensor LCDTest = new LCDsensor(hostname);
-			LCDTest.startSimulation();
+			LCDAPI LCDTest = new LCDAPI(hostname);
+			LCDTest.startSimulation(3, 3);
 			LCDTest.nvgToggle();
-			LCDTest.getData();
+			LCDData data = LCDTest.fetchData();
 			LCDTest.updatePosition(15, 5);
-			LCDTest.data.get_gBarCount();
-			LCDTest.data.get_gSubstanceIndex();
-			LCDTest.data.get_gVolumeConcentration();
-			LCDTest.data.get_DetectionMode();
-			LCDTest.data.is_audioFault();
-			LCDTest.data.is_changeBattery();
-			LCDTest.data.is_changeSievePack();
-			LCDTest.data.is_codeChecksumError();
-			LCDTest.data.is_coronaBurnOff();
-			LCDTest.data.is_cRAboveLimit();
-			LCDTest.data.is_eEPROMChecksumError();
-			LCDTest.data.is_fanCAboveLimit();
-			LCDTest.data.is_fatalError();
-			LCDTest.data.is_gAlert();
-			LCDTest.data.is_gHighDoseAlert();
-			LCDTest.data.is_gMediumDoseAlert();
-			LCDTest.data.is_hAlert();
-			LCDTest.data.is_healthCheckFailure();
-			LCDTest.data.is_hHighDoseAlert();
-			LCDTest.data.is_hTOutSideLimits();
-			LCDTest.data.is_initialSelfTest();
-			LCDTest.data.is_initialSelfTestFailure();
-			LCDTest.data.is_lowBattery();
-			LCDTest.data.is_lowSieve();
-			LCDTest.data.is_pTOutOfRange();
-			LCDTest.data.is_tICAlert();
-			LCDTest.data.is_tICMode();
-			LCDTest.setDetectionMode(0);
-			LCDTest.data.get_DetectionMode();
+			System.out.println(data.gBarCount);
+			System.out.println(data.gSubstanceIndex);
+			System.out.println(data.detectionMode);
+			System.out.println(data.audioFault);
+			System.out.println(data.changeBattery);
+			System.out.println(data.changeSievePack);
+			System.out.println(data.codeChecksumError);
+			System.out.println(data.coronaBurnOff);
+			System.out.println(data.crAboveLimit);
+			System.out.println(data.eepromChecksumError);
+			System.out.println(data.fanCAboveLimit);
+			System.out.println(data.fatalError);
+			System.out.println(data.gAlert);
+			System.out.println(data.gHighDoseAlert);
+			System.out.println(data.gMediumDoseAlert);
+			System.out.println(data.hAlert);
+			System.out.println(data.healthCheckFailure);
+			System.out.println(data.hHighDoseAlert);
+			System.out.println(data.hTOutSideLimits);
+			System.out.println(data.initialSelfTest);
+			System.out.println(data.initialSelfTestFailure);
+			System.out.println(data.lowBattery);
+			System.out.println(data.lowSieve);
+			System.out.println(data.pTOutOfRange);
+			System.out.println(data.ticAlert);
+			System.out.println(data.ticMode);
+			System.out.println("CHANGING DETECTION MODE");
+			System.out.println(data.detectionMode);
+			LCDTest.updateDetectionMode(LCDAPI.TIC);
+			data = LCDTest.fetchData();
+			System.out.println(data.detectionMode);
 			LCDTest.endSimulation();
 			System.out.println("END TEST LCD");
 			
 			System.out.println("END TESTS");
-			
 			/*
 			 * If these tests pass then all normal calls to WISE from java succeed.
 			 * Events are not handled. AP2C has none, LCD has a few. TODO: Fix events.
