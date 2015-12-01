@@ -1,33 +1,35 @@
 package Sensors;
+import Exceptions.ConnectionFailedException;
 import Exceptions.NoSessionInProgressException;
+import Exceptions.NoSuchSimulationException;
 import HttpClient.HttpClient;
 
-public abstract class Sensor 
+abstract class Sensor 
 {
-	protected String urlPath;
+	protected String sensorPath;
 	protected String sessionID;
 	protected HttpClient connection;
 
-	public Sensor(String hostname, String urlPath)
+	public Sensor(String uri, String sensorPath)
 	{
-		this.connection = new HttpClient(hostname);
-		this.urlPath = urlPath;
+		this.connection = new HttpClient(uri);
+		this.sensorPath = sensorPath;
 	}
 	
-	public abstract void getData() throws Exception;
+	public abstract SensorData fetchData() throws ConnectionFailedException, NoSuchSimulationException;
 	
-	public abstract void updatePosition(double longitude, double latitude) throws Exception;
+	public abstract void updatePosition(double longitude, double latitude) throws ConnectionFailedException, NoSuchSimulationException;
 
-	public void startSimulation() throws Exception 
+	public void startSimulation() throws ConnectionFailedException 
 	{
-		sessionID = connection.sendPOST(urlPath);
+		sessionID = connection.sendPOST(sensorPath);
 	}
 	
 	public void endSimulation() throws Exception 
 	{
 		if(sessionID == null) throw new NoSessionInProgressException();
 		
-		connection.sendDELETE(urlPath + "/" + sessionID);
+		connection.sendDELETE(sensorPath + "/" + sessionID);
 		sessionID = null;
 	}
 }
