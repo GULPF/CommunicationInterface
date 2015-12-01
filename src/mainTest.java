@@ -1,8 +1,11 @@
 import org.json.JSONObject;
 
+import Exceptions.ConnectionFailedException;
+import Exceptions.NoSuchSimulationException;
 import HttpClient.HttpClient;
 import Sensors.AP2CeAPI;
 import Sensors.AP2CeData;
+import Sensors.ConnectionTester;
 import Sensors.LCDAPI;
 import Sensors.LCDData;
 
@@ -13,7 +16,10 @@ public class mainTest {
 		String hostname = "http://localhost:8732";
 		HttpClient client = new HttpClient(hostname); // Make sure host / url is correct.	
 		
+		
 		try {
+			
+			
 //Raw tests of HttpClient
 //			System.out.println("http://localhost:2000/sensor/ap2ce");
 //			String Id = client.sendPOST("sensors/ap2ce");
@@ -75,33 +81,33 @@ public class mainTest {
 //			client.sendDELETE("sensors/ap2ce/" + Id);
 			
 //Sensor function tests
-			/*
+			
 			System.out.println("START TESTS");
 			System.out.println("START TEST AP2C");
 			AP2CeAPI AP2CTest = new AP2CeAPI(hostname);
-			AP2CTest.startSimulation();
-			AP2CeData data = AP2CTest.fetchData();
+			AP2CTest.startSimulation(2, 2);
+			AP2CeData adata = AP2CTest.fetchData();
 			
-			System.out.println(data.batteryLow);
+			System.out.println(adata.batteryLow);
 			AP2CTest.updatePosition(1, 2);
 			
 			AP2CTest.updatePosition(15, 5);
-			System.out.println(data.gBarCount);
+			System.out.println(adata.gBarCount);
 			
-			System.out.println(data.batteryLow);
-			System.out.println(data.detectorReady);
-			System.out.println(data.deviceFault);
-			System.out.println(data.hydrogenTankEmpty);
-			System.out.println(data.purge);
+			System.out.println(adata.batteryLow);
+			System.out.println(adata.detectorReady);
+			System.out.println(adata.deviceFault);
+			System.out.println(adata.hydrogenTankEmpty);
+			System.out.println(adata.purge);
 			AP2CTest.endSimulation();
 			System.out.println("END TEST AP2C");
-			*/
+			
 			System.out.println("START TEST LCD");
 			LCDAPI LCDTest = new LCDAPI(hostname);
-			LCDTest.startSimulation();
+			LCDTest.startSimulation(3, 3);
 			LCDTest.nvgToggle();
 			LCDData data = LCDTest.fetchData();
-			//LCDTest.updatePosition(15, 5);
+			LCDTest.updatePosition(15, 5);
 			System.out.println(data.gBarCount);
 			System.out.println(data.gSubstanceIndex);
 			System.out.println(data.detectionMode);
@@ -133,11 +139,10 @@ public class mainTest {
 			LCDTest.updateDetectionMode(LCDAPI.TIC);
 			data = LCDTest.fetchData();
 			System.out.println(data.detectionMode);
-			//LCDTest.endSimulation();
+			LCDTest.endSimulation();
 			System.out.println("END TEST LCD");
 			
 			System.out.println("END TESTS");
-			
 			/*
 			 * If these tests pass then all normal calls to WISE from java succeed.
 			 * Events are not handled. AP2C has none, LCD has a few. TODO: Fix events.
