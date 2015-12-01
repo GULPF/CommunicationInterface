@@ -36,11 +36,17 @@ abstract class Sensor
 	public abstract void updatePosition(double longitude, double latitude) throws ConnectionFailedException, NoSuchSimulationException;
 
 	/** Start the simulation of the sensor on the server
+	 * @param longitude initial position
+	 * @param latitude  initial position
 	 * @throws ConnectionFailedException if a connection to the server was not established
 	 */
-	public void startSimulation() throws ConnectionFailedException 
+	public void startSimulation(double longitude, double latitude) throws ConnectionFailedException 
 	{
 		sessionID = connection.sendPOST(sensorPath);
+		// Ghetto fix - should send position above
+		try {
+			updatePosition(longitude, latitude);
+		} catch (NoSuchSimulationException e) {}
 	}
 	
 	/** Stop the simulation of the sensor on the server
