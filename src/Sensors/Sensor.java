@@ -1,6 +1,5 @@
 package Sensors;
 import Exceptions.ConnectionFailedException;
-import Exceptions.NoSessionInProgressException;
 import Exceptions.NoSuchSimulationException;
 import HttpClient.HttpClient;
 

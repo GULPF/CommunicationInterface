@@ -6,14 +6,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 import java.net.URL;
 
 import org.json.JSONObject;
 
 import Exceptions.ConnectionFailedException;
 import Exceptions.NoSuchSimulationException;
-import Exceptions.UnexpectedResponseException;
 
 public class HttpClient
 {
@@ -37,15 +35,9 @@ public class HttpClient
 			boolean result = in.readLine() == "123";
 			in.close();
 			
-			if(!result) throw new UnexpectedResponseException();
-			
 			return result;
 		} 
 		catch (IOException e) 
-		{
-			return false;
-		}
-		catch (UnexpectedResponseException e) 
 		{
 			return false;
 		}
