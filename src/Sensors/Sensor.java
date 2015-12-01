@@ -41,11 +41,10 @@ abstract class Sensor
 	 */
 	public void startSimulation(double longitude, double latitude) throws ConnectionFailedException 
 	{
-		sessionID = connection.sendPOST(sensorPath);
-		// Ghetto fix - should send position above
-		try {
-			updatePosition(longitude, latitude);
-		} catch (NoSuchSimulationException e) {}
+		sessionID = connection.sendPOST(sensorPath, "{"
+				+ " \"Altitude\": 0"
+				+ ",\"Longitude\":" + longitude
+				+ ",\"Latitude\":" + latitude + "}");
 	}
 	
 	/** Stop the simulation of the sensor on the server

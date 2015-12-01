@@ -71,16 +71,23 @@ public class HttpClient
 	}
 	
 	/* Handles POST events, where a response from server is expected; Example: Start simulation */
-	public String sendPOST(String urlParam) throws ConnectionFailedException
+	public String sendPOST(String urlParam, String jsonData) throws ConnectionFailedException
 	{
 		try
 		{
 			URL url = new URL(hostname + "/" + urlParam); 
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestProperty( "Content-Type", "application/json" );
 			con.setRequestMethod("POST");
 			
 			con.setDoOutput(true);
-			sendEmptyDataStream(con);
+
+			OutputStreamWriter sendData = new OutputStreamWriter(con.getOutputStream());
+			sendData.write(jsonData);
+			sendData.flush();
+			sendData.close();
+			
+			con.connect();
 			
 			if (con.getResponseCode() != 201) throw new ConnectionFailedException();
 			
@@ -105,7 +112,7 @@ public class HttpClient
 			sendData.write(jsonEvent);
 			sendData.flush();
 			sendData.close();
-			System.out.println(con.getResponseCode());
+			
 			if (con.getResponseCode() == 404) throw new NoSuchSimulationException();
 		}
 		catch (IOException e) {
