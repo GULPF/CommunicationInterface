@@ -18,6 +18,16 @@ public abstract class Sensor
 		this.connection = new HttpClient(uri);
 		this.sensorPath = sensorPath;
 	}
+
+	public void setUri(String uri)
+	{
+		this.connection.setUri(uri);
+	}
+
+	public String getUri()
+	{
+		return this.connection.getUri();
+	}
 	
 	/** Gets sensor data from server
 	 * @return a data object holding all values belonging to the sensor

@@ -15,12 +15,21 @@ import Exceptions.NoSuchSimulationException;
 
 public class HttpClient
 {
-	private String hostname;
+	private String uri;
 	
-	public HttpClient(String hostname) 
+	public HttpClient(String uri)
 	{
-//		if(!hostname.contains("http://")) hostname = "http://" + hostname;
-		this.hostname = hostname;
+		this.uri = uri;
+	}
+
+	public void setUri(String uri)
+	{
+		this.uri = uri;
+	}
+
+	public String getUri()
+	{
+		return uri;
 	}
 	
 	public boolean testConnection()
@@ -28,7 +37,7 @@ public class HttpClient
 		URL url;
 		try 
 		{
-			url = new URL(hostname + "/Check");
+			url = new URL(uri + "/Check");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			
 			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -75,7 +84,7 @@ public class HttpClient
 	{
 		try
 		{
-			URL url = new URL(hostname + "/" + urlParam); 
+			URL url = new URL(uri + "/" + urlParam);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestProperty( "Content-Type", "application/json" );
 			con.setRequestMethod("POST");
@@ -102,7 +111,7 @@ public class HttpClient
 	{
 		try
 		{
-			URL url = new URL(hostname + "/" + urlParam);
+			URL url = new URL(uri + "/" + urlParam);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("POST");
 			
@@ -125,7 +134,7 @@ public class HttpClient
 	{
 		try
 		{
-			URL url = new URL(hostname + "/" + urlParam);
+			URL url = new URL(uri + "/" + urlParam);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
 			con.setDoOutput(false);
@@ -146,7 +155,7 @@ public class HttpClient
 	{
 		try
 		{
-			URL url = new URL(hostname + "/" + urlParam);
+			URL url = new URL(uri + "/" + urlParam);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestProperty( "Content-Type", "application/json" );
 			con.setRequestMethod("PUT");
@@ -175,7 +184,7 @@ public class HttpClient
 	{
 		try
 		{
-			URL url = new URL(hostname + "/" + urlParam);
+			URL url = new URL(uri + "/" + urlParam);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("DELETE");
 			con.setDoOutput(false);
