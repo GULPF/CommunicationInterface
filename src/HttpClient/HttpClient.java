@@ -32,7 +32,7 @@ public class HttpClient
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			
 			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-			boolean result = in.readLine() == "123";
+			boolean result = in.readLine().equals("123");
 			in.close();
 			
 			return result;
