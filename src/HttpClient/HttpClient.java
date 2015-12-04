@@ -159,8 +159,10 @@ public class HttpClient
 	
 			con.connect();
 			
-			if (con.getResponseCode() == 404) throw new NoSuchSimulationException();
-			if (con.getResponseCode() != 200) throw new ConnectionFailedException();
+			int status = con.getResponseCode();
+			
+			if (status == 404) throw new NoSuchSimulationException();
+			if (status != 200) throw new ConnectionFailedException(status);
 		} 
 		catch (IOException e)
 		{

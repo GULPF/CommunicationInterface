@@ -65,17 +65,6 @@ public class LCDAPI extends Sensor
 	public void updateDetectionMode(int mode) throws ConnectionFailedException, NoSuchSimulationException
 	{
 		// TODO: validate mode? if its not valid, should throw runtimeerror
-		lastReceivedData.put("DetectionMode", mode);
-		connection.sendPUT(sensorPath + "/" + sessionID, lastReceivedData.toString());
-	}
-	
-	public void updatePosition(double longitude, double latitude) throws ConnectionFailedException, NoSuchSimulationException
-	{
-		HashMap<String, Double> pos = new HashMap<String, Double>();
-		pos.put("Longitude", longitude);
-		pos.put("Latitude", latitude);
-		pos.put("Altitude", 0.0);
-		lastReceivedData.put("Position", pos);
-		connection.sendPUT(sensorPath + "/" + sessionID, lastReceivedData.toString());
+		connection.sendPUT(sensorPath + "/" + sessionID, "{\"DetectionMode\": " + mode + "}");
 	}
 }
