@@ -97,8 +97,9 @@ public class HttpClient
 			sendData.close();
 			
 			con.connect();
-			
-			if (con.getResponseCode() != 201) throw new ConnectionFailedException();
+
+			int status = con.getResponseCode();
+			if (status != 201) throw new ConnectionFailedException(status);
 			
 			return con.getHeaderField("Location");
 		}
@@ -121,8 +122,9 @@ public class HttpClient
 			sendData.write(jsonEvent);
 			sendData.flush();
 			sendData.close();
-			
-			if (con.getResponseCode() == 404) throw new NoSuchSimulationException();
+
+			int status = con.getResponseCode();
+			if (status == 404) throw new NoSuchSimulationException();
 		}
 		catch (IOException e) {
 			throw new ConnectionFailedException();
@@ -138,8 +140,10 @@ public class HttpClient
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
 			con.setDoOutput(false);
-			
-			if (con.getResponseCode() == 404) throw new NoSuchSimulationException();
+
+			int status = con.getResponseCode();
+			if (status == 404) throw new NoSuchSimulationException();
+			if (status != 200) throw new ConnectionFailedException(status);
 			
 			return returnResponse(con);
 		}
@@ -196,6 +200,4 @@ public class HttpClient
 			throw new ConnectionFailedException();
 		}
 	}
-	
-
 }
