@@ -1,5 +1,6 @@
 package Sensors;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class AP2CeData implements SensorData 
@@ -25,16 +26,18 @@ public class AP2CeData implements SensorData
 		batteryLow = state.getBoolean("BatteryLow");
 	}
 	
-	private int returnData(String dataName, String substanceCategory, JSONObject json) {
-		if(json.getJSONArray("Data").getJSONObject(0).getString("SubstanceCategory").equals(substanceCategory))
+	private int returnData(String dataName, String substanceCategory, JSONObject json) 
+	{
+		JSONArray data = json.getJSONArray("Data");
+		if(data.getJSONObject(0).getString("SubstanceCategory").equals(substanceCategory))
 		{
-			return json.getJSONArray("Data").getJSONObject(0).getInt(dataName);
+			return data.getJSONObject(0).getInt(dataName);
 		}
-		else if(json.getJSONArray("Data").length() == 2)
+		else if(data.length() == 2)
 		{
-			if(json.getJSONArray("Data").getJSONObject(1).getString("SubstanceCategory").equals(substanceCategory))
+			if(data.getJSONObject(1).getString("SubstanceCategory").equals(substanceCategory))
 			{
-				return json.getJSONArray("Data").getJSONObject(1).getInt(dataName);
+				return data.getJSONObject(1).getInt(dataName);
 			}
 		}
 		return 0;

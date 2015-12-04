@@ -1,11 +1,6 @@
-import org.json.JSONObject;
-
-import Exceptions.ConnectionFailedException;
-import Exceptions.NoSuchSimulationException;
 import HttpClient.HttpClient;
 import Sensors.AP2CeAPI;
 import Sensors.AP2CeData;
-import Sensors.ConnectionTester;
 import Sensors.LCDAPI;
 import Sensors.LCDData;
 
