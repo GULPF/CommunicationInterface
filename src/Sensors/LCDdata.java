@@ -37,16 +37,16 @@ public class LCDData implements SensorData
 	public final boolean hTOutSideLimits;
 	public final boolean audibleAlarm;
 	
-	public LCDData(JSONObject json)
+	public LCDData(JSONObject lastReceivedData)
 	{
-		gBarCount = returnData("BarCount", "G", json);
-		hBarCount = returnData("BarCount", "H", json);
-		gSubstanceIndex = returnData("SubstanceIndex", "G", json);
-		hSubstanceSubstanceIndex = returnData("SubstanceIndex", "H", json);
+		gBarCount = returnData("BarCount", "G", lastReceivedData);
+		hBarCount = returnData("BarCount", "H", lastReceivedData);
+		gSubstanceIndex = returnData("SubstanceIndex", "G", lastReceivedData);
+		hSubstanceSubstanceIndex = returnData("SubstanceIndex", "H", lastReceivedData);
 
-		detectionMode = json.getInt("DetectionMode");
+		detectionMode = lastReceivedData.getInt("DetectionMode");
 		
-		JSONObject state = json.getJSONObject("State");
+		JSONObject state = lastReceivedData.getJSONObject("State");
 		gAlert = state.getBoolean("GAlert");
 		hAlert = state.getBoolean("GAlert");
 		ticAlert = state.getBoolean("TICAlert");

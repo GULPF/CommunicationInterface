@@ -1,6 +1,5 @@
 package Sensors;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class RAIDData implements SensorData 

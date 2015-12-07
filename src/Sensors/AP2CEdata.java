@@ -13,12 +13,12 @@ public class AP2CeData implements SensorData
 	public final boolean purge;
 	public final boolean batteryLow;
 	
-	public AP2CeData(JSONObject json)
+	public AP2CeData(JSONObject lastReceivedData)
 	{
-		hBarCount = returnData("BarCount", "G", json);
-		gBarCount = returnData("BarCount", "H", json);
+		hBarCount = returnData("BarCount", "G", lastReceivedData);
+		gBarCount = returnData("BarCount", "H", lastReceivedData);
 		
-		JSONObject state = json.getJSONObject("State");
+		JSONObject state = lastReceivedData.getJSONObject("State");
 		hydrogenTankEmpty = state.getBoolean("HydrogenTankEmpty");
 		deviceFault = state.getBoolean("DeviceFault");
 		detectorReady = state.getBoolean("DetectorReady");
