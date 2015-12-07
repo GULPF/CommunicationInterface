@@ -3,7 +3,7 @@ import Exceptions.ConnectionFailedException;
 import Exceptions.NoSuchSimulationException;
 import HttpClient.HttpClient;
 
-abstract class Sensor 
+public abstract class Sensor 
 {
 	protected String sensorPath;
 	protected String sessionID;
@@ -17,6 +17,16 @@ abstract class Sensor
 	{
 		this.connection = new HttpClient(uri);
 		this.sensorPath = sensorPath;
+	}
+
+	public void setUri(String uri)
+	{
+		this.connection.setUri(uri);
+	}
+
+	public String getUri()
+	{
+		return this.connection.getUri();
 	}
 	
 	/** Gets sensor data from server
@@ -32,7 +42,16 @@ abstract class Sensor
 	 * @throws ConnectionFailedException if a connection to the server was not established
 	 * @throws NoSuchSimulationException if this object is not associated with a sensor on the server
 	 */
-	public abstract void updatePosition(double longitude, double latitude) throws ConnectionFailedException, NoSuchSimulationException;
+	public void updatePosition(double longitude, double latitude) throws ConnectionFailedException, NoSuchSimulationException
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("{\"Position\":{\"Longitude\":");
+		sb.append(longitude);
+		sb.append(", \"Latitude\":");
+		sb.append(latitude);
+		sb.append(", \"Altitude\": 0}}");
+		connection.sendPUT(sensorPath + "/" + sessionID, sb.toString());
+	}
 
 	/** Start the simulation of the sensor on the server
 	 * @param longitude initial position

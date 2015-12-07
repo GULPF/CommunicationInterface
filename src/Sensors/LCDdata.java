@@ -35,6 +35,7 @@ public class LCDData implements SensorData
 	public final boolean codeChecksumError;
 	public final boolean eepromChecksumError;
 	public final boolean hTOutSideLimits;
+	public final boolean audibleAlarm;
 	
 	public LCDData(JSONObject json)
 	{
@@ -70,6 +71,7 @@ public class LCDData implements SensorData
 		codeChecksumError = state.getBoolean("CodeChecksumError");
 		eepromChecksumError = state.getBoolean("EEPROMChecksumError");
 		hTOutSideLimits = state.getBoolean("HTOutSideLimits");
+		audibleAlarm = state.getBoolean("AudibleAlarm");
 	
 	}
 	

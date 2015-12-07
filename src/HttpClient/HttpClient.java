@@ -15,12 +15,21 @@ import Exceptions.NoSuchSimulationException;
 
 public class HttpClient
 {
-	private String hostname;
+	private String uri;
 	
-	public HttpClient(String hostname) 
+	public HttpClient(String uri)
 	{
-//		if(!hostname.contains("http://")) hostname = "http://" + hostname;
-		this.hostname = hostname;
+		this.uri = uri;
+	}
+
+	public void setUri(String uri)
+	{
+		this.uri = uri;
+	}
+
+	public String getUri()
+	{
+		return uri;
 	}
 	
 	public boolean testConnection()
@@ -28,11 +37,11 @@ public class HttpClient
 		URL url;
 		try 
 		{
-			url = new URL(hostname + "/Check");
+			url = new URL(uri + "/Check");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			
 			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-			boolean result = in.readLine() == "123";
+			boolean result = in.readLine().equals("123");
 			in.close();
 			
 			return result;
@@ -75,7 +84,7 @@ public class HttpClient
 	{
 		try
 		{
-			URL url = new URL(hostname + "/" + urlParam); 
+			URL url = new URL(uri + "/" + urlParam);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestProperty( "Content-Type", "application/json" );
 			con.setRequestMethod("POST");
@@ -88,8 +97,9 @@ public class HttpClient
 			sendData.close();
 			
 			con.connect();
-			
-			if (con.getResponseCode() != 201) throw new ConnectionFailedException();
+
+			int status = con.getResponseCode();
+			if (status != 201) throw new ConnectionFailedException(status);
 			
 			return con.getHeaderField("Location");
 		}
@@ -102,7 +112,7 @@ public class HttpClient
 	{
 		try
 		{
-			URL url = new URL(hostname + "/" + urlParam);
+			URL url = new URL(uri + "/" + urlParam);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("POST");
 			
@@ -112,8 +122,9 @@ public class HttpClient
 			sendData.write(jsonEvent);
 			sendData.flush();
 			sendData.close();
-			
-			if (con.getResponseCode() == 404) throw new NoSuchSimulationException();
+
+			int status = con.getResponseCode();
+			if (status == 404) throw new NoSuchSimulationException();
 		}
 		catch (IOException e) {
 			throw new ConnectionFailedException();
@@ -125,12 +136,14 @@ public class HttpClient
 	{
 		try
 		{
-			URL url = new URL(hostname + "/" + urlParam);
+			URL url = new URL(uri + "/" + urlParam);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
 			con.setDoOutput(false);
-			
-			if (con.getResponseCode() == 404) throw new NoSuchSimulationException();
+
+			int status = con.getResponseCode();
+			if (status == 404) throw new NoSuchSimulationException();
+			if (status != 200) throw new ConnectionFailedException(status);
 			
 			return returnResponse(con);
 		}
@@ -146,7 +159,7 @@ public class HttpClient
 	{
 		try
 		{
-			URL url = new URL(hostname + "/" + urlParam);
+			URL url = new URL(uri + "/" + urlParam);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestProperty( "Content-Type", "application/json" );
 			con.setRequestMethod("PUT");
@@ -159,8 +172,10 @@ public class HttpClient
 	
 			con.connect();
 			
-			if (con.getResponseCode() == 404) throw new NoSuchSimulationException();
-			if (con.getResponseCode() != 200) throw new ConnectionFailedException();
+			int status = con.getResponseCode();
+			
+			if (status == 404) throw new NoSuchSimulationException();
+			if (status != 200) throw new ConnectionFailedException(status);
 		} 
 		catch (IOException e)
 		{
@@ -173,7 +188,7 @@ public class HttpClient
 	{
 		try
 		{
-			URL url = new URL(hostname + "/" + urlParam);
+			URL url = new URL(uri + "/" + urlParam);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("DELETE");
 			con.setDoOutput(false);
@@ -185,6 +200,4 @@ public class HttpClient
 			throw new ConnectionFailedException();
 		}
 	}
-	
-
 }

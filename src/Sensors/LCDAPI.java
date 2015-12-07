@@ -1,18 +1,14 @@
 package Sensors;
 
-import java.util.HashMap;
-
-import org.json.JSONObject;
-
 import Exceptions.ConnectionFailedException;
 import Exceptions.NoSuchSimulationException;
 
 public class LCDAPI extends Sensor 
 {
-	private JSONObject lastReceivedData;
 	public static final int CWA = 0;
 	public static final int TIC = 1;
 	public static final int CWACont = 2;
+	private static final int IGNORE = 3;
 	
 	/**
 	 * @param uri - server uri
@@ -25,8 +21,7 @@ public class LCDAPI extends Sensor
 	public LCDData fetchData() throws ConnectionFailedException, NoSuchSimulationException 
 	{
 		if(sessionID == null) throw new NoSuchSimulationException();
-		lastReceivedData = super.connection.sendGET(sensorPath + "/" + sessionID);
-		return new LCDData(lastReceivedData);
+		return new LCDData(super.connection.sendGET(sensorPath + "/" + sessionID));
 	}
 	
 	/** Sends a 'NVG TOGGLE' event to the server
@@ -65,17 +60,22 @@ public class LCDAPI extends Sensor
 	public void updateDetectionMode(int mode) throws ConnectionFailedException, NoSuchSimulationException
 	{
 		// TODO: validate mode? if its not valid, should throw runtimeerror
-		lastReceivedData.put("DetectionMode", mode);
-		connection.sendPUT(sensorPath + "/" + sessionID, lastReceivedData.toString());
+		connection.sendPUT(sensorPath + "/" + sessionID, "{\"DetectionMode\": " + mode + "}");
 	}
 	
+
 	public void updatePosition(double longitude, double latitude) throws ConnectionFailedException, NoSuchSimulationException
 	{
-		HashMap<String, Double> pos = new HashMap<String, Double>();
-		pos.put("Longitude", longitude);
-		pos.put("Latitude", latitude);
-		pos.put("Altitude", 0.0);
-		lastReceivedData.put("Position", pos);
-		connection.sendPUT(sensorPath + "/" + sessionID, lastReceivedData.toString());
+		StringBuilder sb = new StringBuilder();
+		sb.append("{\"Position\":{\"Longitude\":");
+		sb.append(longitude);
+		sb.append(", \"Latitude\":");
+		sb.append(latitude);
+		sb.append(", \"Altitude\": 0},");
+		// TODO: explain why this is needed
+		sb.append("\"DetectionMode\": ");
+		sb.append(IGNORE);
+		sb.append("}}");
+		connection.sendPUT(sensorPath + "/" + sessionID, sb.toString());
 	}
 }
