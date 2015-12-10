@@ -52,6 +52,48 @@ public class LCDAPI extends Sensor
 		connection.sendPOSTEvent(sensorPath, jsonEvent);
 	}
 	
+	/** Sends a 'silent current alarm' event to the server
+	 * @throws ConnectionFailedException if a connection to the server was not established
+	 * @throws NoSuchSimulationException if this object is not associated with a sensor on the server
+	 */
+	public void silenceAlarm() throws ConnectionFailedException, NoSuchSimulationException
+	{
+		String jsonEvent = "{"
+				+ " \"command\": \"silent current alarm\","
+				+ " \"sensor\": \"lcd\","
+				+ " \"id\": \"" + sessionID + "\""
+				+ "}";
+		connection.sendPOSTEvent(sensorPath, jsonEvent);
+	}
+	
+	/** Sends a 'reset sieve pack timer' event to the server
+	 * @throws ConnectionFailedException if a connection to the server was not established
+	 * @throws NoSuchSimulationException if this object is not associated with a sensor on the server
+	 */
+	public void resetSievPackTimer() throws ConnectionFailedException, NoSuchSimulationException
+	{
+		String jsonEvent = "{"
+				+ " \"command\": \"reset sieve pack timer\","
+				+ " \"sensor\": \"lcd\","
+				+ " \"id\": \"" + sessionID + "\""
+				+ "}";
+		connection.sendPOSTEvent(sensorPath, jsonEvent);
+	}
+	
+	/** Sends a 'restart' event to the server
+	 * @throws ConnectionFailedException if a connection to the server was not established
+	 * @throws NoSuchSimulationException if this object is not associated with a sensor on the server
+	 */
+	public void restart() throws ConnectionFailedException, NoSuchSimulationException
+	{
+		String jsonEvent = "{"
+				+ " \"command\": \"restart\","
+				+ " \"sensor\": \"lcd\","
+				+ " \"id\": \"" + sessionID + "\""
+				+ "}";
+		connection.sendPOSTEvent(sensorPath, jsonEvent);
+	}
+	
 	/**
 	 * @param mode one of LCDAPI.[CWA, TIC, CWACont]
 	 * @throws ConnectionFailedException if a connection to the server was not established
