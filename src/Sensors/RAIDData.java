@@ -11,7 +11,8 @@ public class RAIDData implements SensorData
 {
 	public final byte SubstanceLibrary;
 	public final int DeviceState;
-	public final int DeviceError;	
+	public final int DeviceError;
+	public final int InternalState;
 	public final List<RAIDMeasuredData> data;
 	
 	public RAIDData(JSONObject lastReceivedData) 
@@ -29,6 +30,7 @@ public class RAIDData implements SensorData
 		SubstanceLibrary = (byte) state.getInt("SubstanceLibrary");
 		DeviceState = state.getInt("DeviceState");
 		DeviceError = state.getInt("DeviceError");
+		InternalState = state.getInt("InternalState");
 		
 	}
 	
