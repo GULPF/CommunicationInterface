@@ -19,12 +19,17 @@ public class HttpClient
 	
 	public HttpClient(String uri)
 	{
-		this.uri = uri;
+		setUri(uri);
 	}
 
 	public void setUri(String uri)
 	{
-		this.uri = uri;
+		// Ghetto fix - "http://" and "" throws different exceptions
+		if (uri.trim().equals("http://") || uri.trim().equals("https://")) {
+			this.uri = "";
+		} else {
+			this.uri = uri;	
+		}
 	}
 
 	public String getUri()
