@@ -119,9 +119,12 @@ public class HttpClient
 		{
 			URL url = new URL(uri + "/" + urlParam);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestProperty( "Content-Type", "application/json" );
 			con.setRequestMethod("POST");
 			
 			con.setDoOutput(true);
+			
+			con.connect();
 			
 			OutputStreamWriter sendData = new OutputStreamWriter(con.getOutputStream());
 			sendData.write(jsonEvent);

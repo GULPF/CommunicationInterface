@@ -28,10 +28,10 @@ public class I27API extends Sensor
 	public void resetAccumulatedDoseRate() throws ConnectionFailedException, NoSuchSimulationException
 	{
 		String jsonEvent = "{"
-				+ " \"command\": \"reset accumulated dose rate\","
-				+ " \"sensor\": \"i27\","
-				+ " \"id\": \"" + sessionID + "\""
+				+ " \"Command\": \"reset accumulated dose rate\","
+				+ " \"Sensor\": \"i27\","
+				+ " \"Id\": \"" + sessionID + "\""
 				+ "}";
-		connection.sendPOSTEvent(sensorPath, jsonEvent);
+		connection.sendPOSTEvent("sensors/event", jsonEvent);
 	}
 }
