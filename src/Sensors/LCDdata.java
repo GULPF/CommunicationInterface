@@ -24,7 +24,6 @@ public class LCDData implements SensorData
 	public final boolean hHighDoseAlert;
 	public final boolean initialSelfTest;
 	public final boolean coronaBurnOff;
-	public final boolean ptOutOfRange;
 	public final boolean audioFault;
 	public final boolean pTOutOfRange;
 	public final boolean fatalError;
@@ -36,6 +35,7 @@ public class LCDData implements SensorData
 	public final boolean eepromChecksumError;
 	public final boolean hTOutSideLimits;
 	public final boolean audibleAlarm;
+	public final boolean nvg;
 	
 	public LCDData(JSONObject lastReceivedData)
 	{
@@ -48,7 +48,7 @@ public class LCDData implements SensorData
 		
 		JSONObject state = lastReceivedData.getJSONObject("State");
 		gAlert = state.getBoolean("GAlert");
-		hAlert = state.getBoolean("GAlert");
+		hAlert = state.getBoolean("HAlert");
 		ticAlert = state.getBoolean("TICAlert");
 		ticMode = state.getBoolean("TICMode");
 		lowSieve = state.getBoolean("LowSieve");
@@ -62,7 +62,6 @@ public class LCDData implements SensorData
 		coronaBurnOff = state.getBoolean("CoronaBurnOff");
 		pTOutOfRange = state.getBoolean("PTOutOfRange");
 		audioFault = state.getBoolean("AudioFault");
-		ptOutOfRange = state.getBoolean("PTOutOfRange");
 		fatalError = state.getBoolean("FatalError");
 		crAboveLimit = state.getBoolean("CRAboveLimit");
 		fanCAboveLimit = state.getBoolean("FanCAboveLimit");
@@ -72,6 +71,7 @@ public class LCDData implements SensorData
 		eepromChecksumError = state.getBoolean("EEPROMChecksumError");
 		hTOutSideLimits = state.getBoolean("HTOutSideLimits");
 		audibleAlarm = state.getBoolean("AudibleAlarm");
+		nvg = state.getBoolean("NVG");
 	
 	}
 	

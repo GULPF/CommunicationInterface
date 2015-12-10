@@ -15,8 +15,8 @@ public class AP2CeData implements SensorData
 	
 	public AP2CeData(JSONObject lastReceivedData)
 	{
-		hBarCount = returnData("BarCount", "G", lastReceivedData);
-		gBarCount = returnData("BarCount", "H", lastReceivedData);
+		gBarCount = returnData("BarCount", "G", lastReceivedData);
+		hBarCount = returnData("BarCount", "H", lastReceivedData);
 		
 		JSONObject state = lastReceivedData.getJSONObject("State");
 		hydrogenTankEmpty = state.getBoolean("HydrogenTankEmpty");
