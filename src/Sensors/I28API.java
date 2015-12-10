@@ -1,9 +1,5 @@
 package Sensors;
 
-import java.util.HashMap;
-
-import org.json.JSONObject;
-
 import Exceptions.ConnectionFailedException;
 import Exceptions.NoSuchSimulationException;
 
@@ -29,6 +25,16 @@ public class I28API extends Sensor
 	{
 		String jsonEvent = "{"
 				+ " \"Command\": \"reset accumulated dose rate\","
+				+ " \"Sensor\": \"i28\","
+				+ " \"Id\": \"" + sessionID + "\""
+				+ "}";
+		connection.sendPOSTEvent("sensors/event", jsonEvent);
+	}
+	
+	public void resetPeakDoseRate()  throws ConnectionFailedException, NoSuchSimulationException
+	{
+		String jsonEvent = "{"
+				+ " \"Command\": \"reset peak dose rate\","
 				+ " \"Sensor\": \"i28\","
 				+ " \"Id\": \"" + sessionID + "\""
 				+ "}";
