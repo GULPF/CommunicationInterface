@@ -1,20 +1,24 @@
 package Sensors;
 
+import java.util.HashMap;
+
+import org.json.JSONObject;
+
 import Exceptions.ConnectionFailedException;
 import Exceptions.NoSuchSimulationException;
 
-public class I27API extends Sensor 
+public class I28API extends Sensor 
 {
-	public I27API(String uri) 
+	public I28API(String uri) 
 	{
-		super(uri, "sensors/i27");
+		super(uri, "sensors/i28");
 	}
 
 	@Override
-	public I27Data fetchData() throws ConnectionFailedException, NoSuchSimulationException 
+	public I28Data fetchData() throws ConnectionFailedException, NoSuchSimulationException 
 	{
 		if(sessionID == null) throw new NoSuchSimulationException();
-		return new I27Data(super.connection.sendGET(sensorPath + "/" + sessionID));
+		return new I28Data(super.connection.sendGET(sensorPath + "/" + sessionID));
 	}
 	
 	/** Sends a 'reset accumulated dose rate' event to the server
@@ -25,7 +29,7 @@ public class I27API extends Sensor
 	{
 		String jsonEvent = "{"
 				+ " \"Command\": \"reset accumulated dose rate\","
-				+ " \"Sensor\": \"i27\","
+				+ " \"Sensor\": \"i28\","
 				+ " \"Id\": \"" + sessionID + "\""
 				+ "}";
 		connection.sendPOSTEvent("sensors/event", jsonEvent);
